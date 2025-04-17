@@ -24,6 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F935B4392DB163EE00FB40C2 /* SwiftLintDiff+Fix */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "SwiftLintDiff+Fix"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9545A112DB0F99000137A3D /* NikeLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NikeLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9545A212DB0F99100137A3D /* NikeLightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NikeLightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9545A2B2DB0F99100137A3D /* NikeLightUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NikeLightUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -31,9 +32,29 @@
 		F9545B8C2DB1006D00137A3D /* SwiftLintDiff */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SwiftLintDiff; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F935B2F62DB1476700FB40C2 /* Exceptions for "NikeLight" folder in "NikeLight" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ContentView.swift,
+			);
+			target = F9545A102DB0F99000137A3D /* NikeLight */;
+		};
+		F935B43A2DB163EE00FB40C2 /* Exceptions for "SwiftLintRunner" folder in "SwiftLintDiff+Fix" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				main.swift,
+			);
+			target = F935B4332DB163EE00FB40C2 /* SwiftLintDiff+Fix */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F9545A132DB0F99000137A3D /* NikeLight */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F935B2F62DB1476700FB40C2 /* Exceptions for "NikeLight" folder in "NikeLight" target */,
+			);
 			path = NikeLight;
 			sourceTree = "<group>";
 		};
@@ -49,6 +70,9 @@
 		};
 		F9545B7F2DB1006A00137A3D /* SwiftLintRunner */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F935B43A2DB163EE00FB40C2 /* Exceptions for "SwiftLintRunner" folder in "SwiftLintDiff+Fix" target */,
+			);
 			path = SwiftLintRunner;
 			sourceTree = "<group>";
 		};
@@ -98,6 +122,7 @@
 				F9545A2B2DB0F99100137A3D /* NikeLightUITests.xctest */,
 				F9545B7E2DB1006A00137A3D /* SwiftLintAll */,
 				F9545B8C2DB1006D00137A3D /* SwiftLintDiff */,
+				F935B4392DB163EE00FB40C2 /* SwiftLintDiff+Fix */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -105,6 +130,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		F935B4332DB163EE00FB40C2 /* SwiftLintDiff+Fix */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F935B4362DB163EE00FB40C2 /* Build configuration list for PBXNativeTarget "SwiftLintDiff+Fix" */;
+			buildPhases = (
+				F935B4342DB163EE00FB40C2 /* Sources */,
+				F935B4352DB163EE00FB40C2 /* SwiftLint */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				F9545B7F2DB1006A00137A3D /* SwiftLintRunner */,
+			);
+			name = "SwiftLintDiff+Fix";
+			packageProductDependencies = (
+			);
+			productName = SwiftLintAll;
+			productReference = F935B4392DB163EE00FB40C2 /* SwiftLintDiff+Fix */;
+			productType = "com.apple.product-type.tool";
+		};
 		F9545A102DB0F99000137A3D /* NikeLight */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F9545A352DB0F99100137A3D /* Build configuration list for PBXNativeTarget "NikeLight" */;
@@ -260,6 +306,7 @@
 				F9545A2A2DB0F99100137A3D /* NikeLightUITests */,
 				F9545B7D2DB1006A00137A3D /* SwiftLintAll */,
 				F9545B852DB1006D00137A3D /* SwiftLintDiff */,
+				F935B4332DB163EE00FB40C2 /* SwiftLintDiff+Fix */,
 			);
 		};
 /* End PBXProject section */
@@ -289,6 +336,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		F935B4352DB163EE00FB40C2 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\nsh Tools/BuildPhaseScripts/SwiftLint_Fix_Diff.sh\n";
+		};
 		F9545B8E2DB100A200137A3D /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -330,6 +396,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F935B4342DB163EE00FB40C2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F9545A0D2DB0F99000137A3D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -381,6 +454,34 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		F935B4372DB163EE00FB40C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DR5X4HV53X;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				MACOSX_DEPLOYMENT_TARGET = 15.3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		F935B4382DB163EE00FB40C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DR5X4HV53X;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				MACOSX_DEPLOYMENT_TARGET = 15.3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		F9545A332DB0F99100137A3D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -502,7 +603,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = NikeLight/NikeLight.entitlements;
+				CODE_SIGN_ENTITLEMENTS = NikeLight/Resources/NikeLight.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DR5X4HV53X;
@@ -542,7 +643,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = NikeLight/NikeLight.entitlements;
+				CODE_SIGN_ENTITLEMENTS = NikeLight/Resources/NikeLight.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DR5X4HV53X;
@@ -726,6 +827,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F935B4362DB163EE00FB40C2 /* Build configuration list for PBXNativeTarget "SwiftLintDiff+Fix" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F935B4372DB163EE00FB40C2 /* Debug */,
+				F935B4382DB163EE00FB40C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F9545A0C2DB0F99000137A3D /* Build configuration list for PBXProject "NikeLight" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
