@@ -33,13 +33,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		F935B2F62DB1476700FB40C2 /* Exceptions for "NikeLight" folder in "NikeLight" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				ContentView.swift,
-			);
-			target = F9545A102DB0F99000137A3D /* NikeLight */;
-		};
 		F935B43A2DB163EE00FB40C2 /* Exceptions for "SwiftLintRunner" folder in "SwiftLintDiff+Fix" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -47,13 +40,20 @@
 			);
 			target = F935B4332DB163EE00FB40C2 /* SwiftLintDiff+Fix */;
 		};
+		F935B6232DB2BFD700FB40C2 /* Exceptions for "NikeLight" folder in "NikeLight" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F9545A102DB0F99000137A3D /* NikeLight */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F9545A132DB0F99000137A3D /* NikeLight */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				F935B2F62DB1476700FB40C2 /* Exceptions for "NikeLight" folder in "NikeLight" target */,
+				F935B6232DB2BFD700FB40C2 /* Exceptions for "NikeLight" folder in "NikeLight" target */,
 			);
 			path = NikeLight;
 			sourceTree = "<group>";
