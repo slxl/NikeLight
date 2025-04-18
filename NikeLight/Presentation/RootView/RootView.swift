@@ -10,7 +10,7 @@ struct RootView: View {
     var body: some View {
         TabView {
             NavigationStack {
-                ProductListView(webRepository: RealProductsWebRepository(session: .shared))
+                ProductListView()
             }
             .tabItem {
                 Label("Shop", systemImage: "bag")
