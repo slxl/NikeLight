@@ -75,7 +75,8 @@ extension AppEnvironment {
     ) -> DIContainer.Interactors {
         let images = RealImagesInteractor(webRepository: webRepositories.images)
         let products = RealProductsInteractor(webRepository: webRepositories.products)
+        let cart = RealCartInteractor(cartRepository: dbRepositories.cart)
 
-        return .init(images: images, products: products)
+        return .init(images: images, products: products, cart: cart)
     }
 }

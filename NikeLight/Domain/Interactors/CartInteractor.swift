@@ -7,52 +7,66 @@
 
 // MARK: - CartInteractor
 
-@MainActor
 protocol CartInteractor {
-    func addToCart(_ product: Product) async throws
-    func removeFromCart(_ product: Product) async throws
-    func getCartItems() async throws -> [CartItem]
+    /// Load cart contents, used for app launch or reload
+    func loadCart() async throws -> [CartItem]
+
+    /// Clear the entire cart
     func clearCart() async throws
+
+    /// Adjusts product quantity
+    func setProductQuantity(_ product: Product, quantity: Int) async throws
+
+    /// Remove all quantities of a specific product from the cart
+    func removeProduct(_ product: Product) async throws
+}
+
+// MARK: - RealCartInteractor
+
+struct RealCartInteractor: CartInteractor {
+    let cartRepository: CartDatabaseRepository
+
+    func loadCart() async throws -> [CartItem] {
+        try await cartRepository.loadCart()
+    }
+
+    func clearCart() async throws {
+        try await cartRepository.clearCart()
+    }
+
+    func setProductQuantity(_ product: Product, quantity: Int) async throws {
+        if quantity == 0 {
+            // If quantity is 0, we remove the product from the cart
+            try await cartRepository.removeProduct(product)
+        } else {
+            // Otherwise, we set the specified quantity
+            try await cartRepository.setProductQuantity(product, quantity: quantity)
+        }
+    }
+
+    func removeProduct(_ product: Product) async throws {
+        try await cartRepository.removeProduct(product)
+    }
 }
 
 // MARK: - StubCartInteractor
 
-// struct RealCartInteractor: CartInteractor {
-//    let cartRepository: CartRepository
-//
-//    func addToCart(_ product: Product) async throws {
-//        try await cartRepository.addProductToCart(product)
-//    }
-//
-//    func removeFromCart(_ product: Product) async throws {
-//        try await cartRepository.remove(product: product)
-//    }
-//
-//    func getCartItems() async throws -> [CartItem] {
-//        try await cartRepository.items()
-//    }
-//
-//    func clearCart() async throws {
-//        try await cartRepository.clear()
-//    }
-// }
-
 struct StubCartInteractor: CartInteractor {
     private var items: [CartItem] = []
 
-    func addToCart(_: Product) async throws {
-        // no-op
-    }
-
-    func removeFromCart(_: Product) async throws {
-        // no-op
-    }
-
-    func getCartItems() async throws -> [CartItem] {
-        items
+    func loadCart() async throws -> [CartItem] {
+        []
     }
 
     func clearCart() async throws {
+        // no-op
+    }
+
+    func setProductQuantity(_ product: Product, quantity: Int) async throws {
+        // no-op
+    }
+
+    func removeProduct(_: Product) async throws {
         // no-op
     }
 }

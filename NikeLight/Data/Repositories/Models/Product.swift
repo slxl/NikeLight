@@ -14,7 +14,7 @@ struct Product: Identifiable, Codable, Hashable {
     let title: String
     let price: Double
     let description: String
-    let image: String
+    let image: String?
 }
 
 // MARK: - ApiModel.Product
@@ -25,7 +25,7 @@ extension ApiModel {
         let title: String
         let price: Double
         let description: String
-        let image: String
+        let image: String?
     }
 }
 

@@ -28,29 +28,34 @@ struct ProductTileView: View {
                 endPoint: .bottom
             )
 
-            AsyncImage(url: URL(string: product.image)) { phase in
-                switch phase {
-                case .empty:
-                    Color.gray.opacity(0.1)
-                    
-                case let .success(image):
-//                    Color.gray.opacity(0.1)
+            if let imageURLString = product.image, let imageURL = URL(string: imageURLString) {
+                AsyncImage(url: imageURL) { phase in
+                    switch phase {
+                    case .empty:
+                        Color.gray.opacity(0.1)
 
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .background(.gray)
-                        .frame(width: tileSize * 0.5, height: tileSize * 0.5)
-                        .offset(y: tileSize * 0.1) // push image downward relatively
-                case .failure:
-                    Color.red.opacity(0.2)
+                    case let .success(image):
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .background(.gray)
+                            .frame(width: tileSize * 0.5, height: tileSize * 0.5)
+                            .offset(y: tileSize * 0.1)
 
-                @unknown default:
-                    Color.gray
+                    case .failure:
+                        Color.red.opacity(0.2)
+
+                    @unknown default:
+                        Color.gray
+                    }
                 }
+                .frame(width: tileSize, height: tileSize)
+                .clipped()
+            } else {
+                Color.gray.opacity(0.1)
+                    .frame(width: tileSize, height: tileSize)
+                    .cornerRadius(10)
             }
-            .frame(width: tileSize, height: tileSize)
-            .clipped()
 
             Text(product.title)
                 .font(.nike(.boldCondencedMedium, size: 11))

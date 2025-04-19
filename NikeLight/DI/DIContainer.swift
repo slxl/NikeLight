@@ -37,11 +37,13 @@ extension DIContainer {
     struct Interactors {
         let images: ImagesInteractor
         let products: ProductsInteractor
+        let cart: CartInteractor
 
         static var stub: Self {
             .init(
                 images: StubImagesInteractor(),
-                products: StubProductsInteractor()
+                products: StubProductsInteractor(),
+                cart: StubCartInteractor()
             )
         }
     }
@@ -53,6 +55,6 @@ extension EnvironmentValues {
 
 extension View {
     func inject(_ container: DIContainer) -> some View {
-         self.environment(\.injected, container)
+        self.environment(\.injected, container)
     }
 }

@@ -20,13 +20,21 @@ struct CartView: View {
                 List {
                     ForEach(viewModel.cartItems) { item in
                         HStack {
-                            AsyncImage(url: URL(string: item.product.image)) { image in
-                                image.resizable()
-                            } placeholder: {
+                            if let imageURLString = item.product.image,
+                               let imageURL = URL(string: imageURLString) {
+                                AsyncImage(url: imageURL) { image in
+                                    image.resizable()
+                                } placeholder: {
+                                    Color.gray
+                                }
+                                .frame(width: 50, height: 50)
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                            } else {
+                                // Fallback placeholder if image is nil or URL is invalid
                                 Color.gray
+                                    .frame(width: 50, height: 50)
+                                    .clipShape(RoundedRectangle(cornerRadius: 5))
                             }
-                            .frame(width: 50, height: 50)
-                            .clipShape(RoundedRectangle(cornerRadius: 5))
 
                             VStack(alignment: .leading) {
                                 Text(item.product.title)

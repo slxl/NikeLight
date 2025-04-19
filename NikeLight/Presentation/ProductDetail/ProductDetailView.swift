@@ -29,21 +29,31 @@ struct ProductDetailView: View {
                     GeometryReader { geo in
                         let dimension: CGFloat = geo.size.width - 32
 
-                        AsyncImage(url: URL(string: product.image)) { image in
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: dimension, height: dimension)
-                                .clipped()
-                                .cornerRadius(20)
-                        } placeholder: {
+                        if let imageURLString = product.image,
+                           let imageURL = URL(string: imageURLString) {
+                            AsyncImage(url: imageURL) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: dimension, height: dimension)
+                                    .clipped()
+                                    .cornerRadius(20)
+                            } placeholder: {
+                                Rectangle()
+                                    .foregroundColor(.gray.opacity(0.3))
+                                    .frame(width: dimension, height: dimension)
+                                    .cornerRadius(20)
+                            }
+                            .frame(height: dimension)
+                            .padding(.horizontal)
+                        } else {
+                            // Fallback placeholder if image is nil or URL is invalid
                             Rectangle()
                                 .foregroundColor(.gray.opacity(0.3))
                                 .frame(width: dimension, height: dimension)
                                 .cornerRadius(20)
+                                .padding(.horizontal)
                         }
-                        .frame(height: dimension)
-                        .padding(.horizontal)
                     }
                     .frame(height: UIScreen.main.bounds.width - 32)
 
@@ -127,14 +137,15 @@ struct ProductDetailView: View {
 
                 if quantity > 1 {
                     quantity -= 1
-                    saveCartItem()
+
+                    updateCartItem(quantity: quantity)
                 } else {
                     withAnimation {
                         isAddedToCart = false
                         quantity = 0
-                    }
 
-                    removeCartItem()
+                        updateCartItem(quantity: quantity)
+                    }
                 }
             }, label: {
                 Image(systemName: "minus")
@@ -147,7 +158,9 @@ struct ProductDetailView: View {
             Button(action: {
                 triggerHaptic()
                 quantity += 1
-                saveCartItem()
+
+                updateCartItem(quantity: quantity)
+
             }, label: {
                 Image(systemName: "plus")
             })
@@ -169,7 +182,9 @@ struct ProductDetailView: View {
                 isAddedToCart = true
                 quantity = 1
             }
-            saveCartItem()
+
+            updateCartItem(quantity: quantity)
+
         }, label: {
             Text("Add to Cart")
                 .frame(maxWidth: .infinity)
@@ -192,37 +207,31 @@ struct ProductDetailView: View {
 
     private func loadCartQuantity() async {
         isLoadingQuantity = true
-        defer { isLoadingQuantity = false }
 
-//        do {
-//            let items = try await injected.interactors.products.db.cart.fetchCartItems()
-//            if let existing = items.first(where: { $0.product.id == product.id }) {
-//                quantity = existing.quantity
-//                isAddedToCart = quantity > 0
-//            }
-//        } catch {
-//            // handle error if needed
-//        }
+        defer {
+            isLoadingQuantity = false
+        }
+
+        do {
+            let items = try await injected.interactors.cart.loadCart()
+
+            if let existing = items.first(where: { $0.product.id == product.id }) {
+                quantity = existing.quantity
+                isAddedToCart = quantity > 0
+            }
+        } catch {
+            // handle error if needed
+        }
     }
 
-    private func saveCartItem() {
-//        Task {
-//            let cartItem = CartItem(id: product.id, product: product, quantity: quantity)
-//            do {
-//                try await injected.interactors.products.db.cart.storeCartItem(cartItem)
-//            } catch {
-//                // handle error
-//            }
-//        }
-    }
-
-    private func removeCartItem() {
-//        Task {
-//            do {
-//                try await injected.interactors.products.db.cart.deleteCartItem(id: product.id)
-//            } catch {
-//                // handle error
-//            }
-//        }
+    private func updateCartItem(quantity: Int) {
+        Task {
+            do {
+                // Use updateCartItem to set the quantity in the cart
+                try await injected.interactors.cart.setProductQuantity(product, quantity: quantity)
+            } catch {
+                // handle error
+            }
+        }
     }
 }
