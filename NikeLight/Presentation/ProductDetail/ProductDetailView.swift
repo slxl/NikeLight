@@ -71,7 +71,7 @@ struct ProductDetailView: View {
 
             // Sticky Bottom Bar
             HStack {
-                Text("$\(product.price, specifier: "%.2f")")
+                Text("€\(product.price, specifier: "%.2f")")
                     .font(.nike(.regular, size: 16))
                     .bold()
 
@@ -217,8 +217,12 @@ struct ProductDetailView: View {
 
             if let existing = items.first(where: { $0.product.id == product.id }) {
                 quantity = existing.quantity
-                isAddedToCart = quantity > 0
+            } else {
+                quantity = 0
             }
+
+            isAddedToCart = quantity > 0
+
         } catch {
             // handle error if needed
         }
