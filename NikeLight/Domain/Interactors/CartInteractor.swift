@@ -15,9 +15,9 @@ protocol CartInteractor {
     func clearCart() async throws
 }
 
-// MARK: - RealCartInteractor
+// MARK: - StubCartInteractor
 
-//struct RealCartInteractor: CartInteractor {
+// struct RealCartInteractor: CartInteractor {
 //    let cartRepository: CartRepository
 //
 //    func addToCart(_ product: Product) async throws {
@@ -35,9 +35,7 @@ protocol CartInteractor {
 //    func clearCart() async throws {
 //        try await cartRepository.clear()
 //    }
-//}
-
-// MARK: - StubCartInteractor
+// }
 
 struct StubCartInteractor: CartInteractor {
     private var items: [CartItem] = []

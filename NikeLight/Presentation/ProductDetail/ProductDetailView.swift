@@ -15,7 +15,8 @@ struct ProductDetailView: View {
     @State private var quantity: Int = 0
     @State private var isAddedToCart: Bool = false
 
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode)
+    var presentationMode
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -72,9 +73,9 @@ struct ProductDetailView: View {
                                     isAddedToCart = false
                                     quantity = 0
                                 }
-                            }) {
+                            }, label: {
                                 Image(systemName: "minus")
-                            }
+                            })
 
                             Text("\(quantity)")
                                 .font(.nike(.regular, size: 16))
@@ -82,9 +83,9 @@ struct ProductDetailView: View {
 
                             Button(action: {
                                 quantity += 1
-                            }) {
+                            }, label: {
                                 Image(systemName: "plus")
-                            }
+                            })
                         }
                         .padding()
                         .frame(width: 160) // Matches button size
@@ -100,11 +101,11 @@ struct ProductDetailView: View {
                             isAddedToCart = true
                             quantity = 1
                             // TODO: Add to cart logic
-                        }) {
+                        }, label: {
                             Text("Add to Cart")
                                 .frame(maxWidth: .infinity)
                                 .font(.nike(.regular, size: 16))
-                        }
+                        })
                         .padding()
                         .frame(width: 160) // Matches counter button
                         .background(Color.black)

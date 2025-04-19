@@ -5,9 +5,8 @@
 //  Created by Slava Khlichkin on 17/04/2025.
 //
 
-
-import Foundation
 import Combine
+import Foundation
 
 extension ProcessInfo {
     var isRunningTests: Bool {
@@ -19,33 +18,37 @@ extension String {
     func localized(_ locale: Locale) -> String {
         let localeId = locale.shortIdentifier
         guard let path = Bundle.main.path(forResource: localeId, ofType: "lproj"),
-            let bundle = Bundle(path: path) else {
+              let bundle = Bundle(path: path) else {
             return NSLocalizedString(self, comment: "")
         }
+
         return bundle.localizedString(forKey: self, value: nil, table: nil)
     }
 }
 
 extension Locale {
     static var backendDefault: Locale {
-        return Locale(identifier: "en")
+        Locale(identifier: "en")
     }
 
     var shortIdentifier: String {
-        return String(identifier.prefix(2))
+        String(identifier.prefix(2))
     }
 }
 
 extension Result {
     var isSuccess: Bool {
         switch self {
-        case .success: return true
-        case .failure: return false
+        case .success:
+            return true
+
+        case .failure:
+            return false
         }
     }
 }
 
-// MARK: - View Inspection helper
+// MARK: - Inspection
 
 internal final class Inspection<V> {
     let notice = PassthroughSubject<UInt, Never>()

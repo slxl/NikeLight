@@ -17,7 +17,8 @@ struct CartItem: Identifiable, Codable {
 extension DBModel {
     @Model
     final class CartItem {
-        @Attribute(.unique) var id: Int
+        @Attribute(.unique)
+        var id: Int
         var productID: Int
         var title: String
         var price: Double

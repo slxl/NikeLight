@@ -146,7 +146,8 @@ extension Loadable: Equatable where T: Equatable {
         case let (.failed(lhsE), .failed(rhsE)):
             return lhsE.localizedDescription == rhsE.localizedDescription
 
-        default: return false
+        default:
+            return false
         }
     }
 }

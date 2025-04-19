@@ -19,18 +19,29 @@ struct ErrorView: View {
             Text(error.localizedDescription)
                 .font(.callout)
                 .multilineTextAlignment(.center)
-                .padding(.bottom, 40).padding()
+                .padding(.bottom, 40)
+                .padding()
 
             Button(
                 action: retryAction,
-                label: { Text("Retry").bold() }
+                label: {
+                    Text("Retry")
+                        .bold()
+                }
             )
         }
     }
 }
 
 #Preview {
-    ErrorView(error: NSError(domain: "", code: 0, userInfo: [
-        NSLocalizedDescriptionKey: "Something went wrong"]),
-    retryAction: {})
+    ErrorView(
+        error: NSError(
+            domain: "",
+            code: 0,
+            userInfo: [
+                NSLocalizedDescriptionKey: "Something went wrong"
+            ]
+        ),
+        retryAction: {}
+    )
 }

@@ -24,7 +24,8 @@ protocol CartDatabaseRepository {
 
 @Model
 final class CartItemEntity {
-    @Attribute(.unique) var id: Int
+    @Attribute(.unique)
+    var id: Int
     var productID: Int
     var title: String
     var price: Double

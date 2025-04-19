@@ -32,6 +32,7 @@ struct ProductTileView: View {
                 switch phase {
                 case .empty:
                     Color.gray.opacity(0.1)
+                    
                 case let .success(image):
 //                    Color.gray.opacity(0.1)
 
@@ -43,6 +44,7 @@ struct ProductTileView: View {
                         .offset(y: tileSize * 0.1) // push image downward relatively
                 case .failure:
                     Color.red.opacity(0.2)
+
                 @unknown default:
                     Color.gray
                 }

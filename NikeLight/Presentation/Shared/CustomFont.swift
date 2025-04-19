@@ -13,8 +13,8 @@ enum CustomFont {
     // swiftformat:sort
     enum NikeStyle: String {
         case bold = "Futura-Bold"
-        case boldCondencedMedium = "Futura-CondensedMedium"
         case boldCondencedExtraBold = "Futura-CondensedExtraBold"
+        case boldCondencedMedium = "Futura-CondensedMedium"
         case medium = "Futura-Medium"
         case regular = "Futura"
     }

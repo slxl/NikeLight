@@ -17,11 +17,11 @@ extension ModelContainer {
     }
 
     static var stub: ModelContainer {
-        try! appModelContainer(inMemoryOnly: true, isStub: true)
+        try! appModelContainer(inMemoryOnly: true, isStub: true) // swiftlint:disable:this force_try
     }
 
     var isStub: Bool {
-        return configurations.first?.name == "stub"
+        configurations.first?.name == "stub"
     }
 }
 

@@ -11,12 +11,13 @@ import SwiftUI
 
 struct ProductListView: View {
     @State private var products: [Product] = []
-    @State internal var navigationPath = NavigationPath()
+    @State private var navigationPath = NavigationPath()
     @State private(set) var productsState: Loadable<Void>
     @State private var isRefreshing = false
     @State private var fadeIn: Bool = false // State to track fade-in animation
 
-    @Environment(\.injected) private var injected: DIContainer
+    @Environment(\.injected)
+    private var injected: DIContainer
 
     // swiftlint:disable:next type_contents_order
     init(state: Loadable<Void> = .notRequested) {
@@ -37,10 +38,13 @@ struct ProductListView: View {
         switch productsState {
         case .notRequested:
             defaultView()
+
         case .isLoading:
             loadingView()
+
         case .loaded:
             loadedView()
+
         case let .failed(error):
             failedView(error)
         }

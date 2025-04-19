@@ -5,7 +5,6 @@
 //  Created by Slava Khlichkin on 19/04/2025.
 //
 
-
 import SwiftUI
 
 // MARK: - RoundedCorner

@@ -4,8 +4,6 @@
 //
 //  Created by Slava Khlichkin on 17/04/2025.
 //
-
-
 import Combine
 
 final class CancelBag {
@@ -21,7 +19,7 @@ final class CancelBag {
     }
     
     func isEqual(to other: CancelBag) -> Bool {
-        return other === self || other.equalToAny || self.equalToAny
+        other === self || other.equalToAny || self.equalToAny
     }
 }
 

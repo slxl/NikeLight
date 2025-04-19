@@ -5,10 +5,11 @@
 //  Created by Slava Khlichkin on 18/04/2025.
 //
 
-
 import SwiftData
 
-enum DBModel { }
+// MARK: - DBModel
+
+enum DBModel {}
 
 extension Schema {
     private static var actualVersion: Schema.Version = Version(1, 0, 0)
