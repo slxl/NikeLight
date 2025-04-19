@@ -15,19 +15,6 @@ struct ProductTileView: View {
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            LinearGradient(
-                gradient: Gradient(stops: [
-                    .init(color: Color.gray.opacity(0.15), location: 0.0),
-                    .init(color: Color.gray.opacity(0.15), location: 0.6),
-                    .init(color: Color.gray.opacity(0.25), location: 0.75),
-                    .init(color: Color.gray.opacity(0.15), location: 0.85),
-                    .init(color: Color.gray.opacity(0.15), location: 0.9),
-                    .init(color: Color.gray.opacity(0.3), location: 1.0)
-                ]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-
             if let imageURLString = product.image, let imageURL = URL(string: imageURLString) {
                 AsyncImage(url: imageURL) { phase in
                     switch phase {
@@ -38,7 +25,7 @@ struct ProductTileView: View {
                         image
                             .resizable()
                             .scaledToFit()
-                            .background(.gray)
+                            .background(.white)
                             .frame(width: tileSize * 0.5, height: tileSize * 0.5)
                             .offset(y: tileSize * 0.1)
 
@@ -66,6 +53,7 @@ struct ProductTileView: View {
                 .padding(12)
         }
         .frame(width: tileSize, height: tileSize)
+        .overlay(RoundedRectangle(cornerRadius: 6).stroke(.secondary, lineWidth: 0.5))
         .cornerRadius(6)
     }
 }
