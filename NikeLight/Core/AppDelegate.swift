@@ -23,7 +23,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UINavigationBar.appearance().titleTextAttributes = [
-            .font: UIFont(name: "Futura-CondensedExtraBold", size: 24)!
+            .font: UIFont(name: "Futura-CondensedExtraBold", size: 24)! // swiftlint:disable:this force_unwrapping
         ]
 
         UINavigationBar.appearance().tintColor = UIColor.black

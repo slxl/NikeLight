@@ -79,9 +79,7 @@ extension MainDBRepository: CartDatabaseRepository {
         try modelContext.transaction {
             cartItems
                 .map { $0.dbModel() }
-                .forEach {
-                    modelContext.insert($0)
-                }
+                .forEach { modelContext.insert($0) }
         }
     }
 

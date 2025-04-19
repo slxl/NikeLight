@@ -27,6 +27,7 @@ struct ProductListView: View {
         NavigationStack(path: $navigationPath) {
             content
                 .navigationTitle("Shop")
+                .navigationBarTitleDisplayMode(.inline)
         }
         // .onReceive(routingUpdate) { self.routingState = $0 }
         // .onReceive(inspection.notice) { self.inspection.visit(self, $0) }
