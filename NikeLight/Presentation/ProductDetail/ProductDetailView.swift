@@ -14,9 +14,13 @@ struct ProductDetailView: View {
 
     @State private var quantity: Int = 0
     @State private var isAddedToCart: Bool = false
+    @State private var isLoadingQuantity: Bool = true
 
     @Environment(\.presentationMode)
     var presentationMode
+
+    @Environment(\.injected)
+    private var injected: DIContainer
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -64,62 +68,28 @@ struct ProductDetailView: View {
                 Spacer()
 
                 Group {
-                    if isAddedToCart {
-                        HStack(spacing: 12) {
-                            Button(action: {
-                                if quantity > 1 {
-                                    quantity -= 1
-                                } else {
-                                    isAddedToCart = false
-                                    quantity = 0
-                                }
-                            }, label: {
-                                Image(systemName: "minus")
-                            })
-
-                            Text("\(quantity)")
-                                .font(.nike(.regular, size: 16))
-                                .frame(minWidth: 24)
-
-                            Button(action: {
-                                quantity += 1
-                            }, label: {
-                                Image(systemName: "plus")
-                            })
-                        }
-                        .padding()
-                        .frame(width: 160) // Matches button size
-                        .background(Color.white)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.black, lineWidth: 1)
-                        )
-                        .foregroundColor(.black)
-                        .cornerRadius(10)
+                    if isLoadingQuantity {
+                        ProgressView()
+                            .frame(width: 160, height: 44)
                     } else {
-                        Button(action: {
-                            isAddedToCart = true
-                            quantity = 1
-                            // TODO: Add to cart logic
-                        }, label: {
-                            Text("Add to Cart")
-                                .frame(maxWidth: .infinity)
-                                .font(.nike(.regular, size: 16))
-                        })
-                        .padding()
-                        .frame(width: 160) // Matches counter button
-                        .background(Color.black)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                        ZStack {
+                            if isAddedToCart {
+                                counterView
+                                    .transition(.opacity)
+                            } else {
+                                addToCartButton
+                                    .transition(.opacity)
+                            }
+                        }
+                        .animation(.easeInOut(duration: 0.15), value: isAddedToCart)
+                        .frame(width: 160)
                     }
                 }
             }
             .padding()
             .background(
                 Color(UIColor.systemBackground)
-                    .clipShape(
-                        RoundedCorner(radius: 20, corners: [.topLeft, .topRight])
-                    )
+                    .clipShape(RoundedCorner(radius: 20, corners: [.topLeft, .topRight]))
                     .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: -6)
                     .ignoresSafeArea(edges: .bottom) // Extend behind the Tab Bar
             )
@@ -141,5 +111,118 @@ struct ProductDetailView: View {
                 }
             }
         }
+        .onAppear {
+            Task {
+                await loadCartQuantity()
+            }
+        }
+    }
+
+    // MARK: - Components
+
+    private var counterView: some View {
+        HStack(spacing: 12) {
+            Button(action: {
+                triggerHaptic()
+
+                if quantity > 1 {
+                    quantity -= 1
+                    saveCartItem()
+                } else {
+                    withAnimation {
+                        isAddedToCart = false
+                        quantity = 0
+                    }
+
+                    removeCartItem()
+                }
+            }, label: {
+                Image(systemName: "minus")
+            })
+
+            Text("\(quantity)")
+                .font(.nike(.regular, size: 16))
+                .frame(minWidth: 24)
+
+            Button(action: {
+                triggerHaptic()
+                quantity += 1
+                saveCartItem()
+            }, label: {
+                Image(systemName: "plus")
+            })
+        }
+        .padding()
+        .background(Color.white)
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.black, lineWidth: 1)
+        )
+        .foregroundColor(.black)
+        .cornerRadius(10)
+    }
+
+    private var addToCartButton: some View {
+        Button(action: {
+            triggerHaptic()
+            withAnimation {
+                isAddedToCart = true
+                quantity = 1
+            }
+            saveCartItem()
+        }, label: {
+            Text("Add to Cart")
+                .frame(maxWidth: .infinity)
+                .font(.nike(.regular, size: 16))
+        })
+        .padding()
+        .background(Color.black)
+        .foregroundColor(.white)
+        .cornerRadius(10)
+    }
+
+    // MARK: - Haptics
+
+    private func triggerHaptic() {
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+    }
+
+    // MARK: - DB Logic
+
+    private func loadCartQuantity() async {
+        isLoadingQuantity = true
+        defer { isLoadingQuantity = false }
+
+//        do {
+//            let items = try await injected.interactors.products.db.cart.fetchCartItems()
+//            if let existing = items.first(where: { $0.product.id == product.id }) {
+//                quantity = existing.quantity
+//                isAddedToCart = quantity > 0
+//            }
+//        } catch {
+//            // handle error if needed
+//        }
+    }
+
+    private func saveCartItem() {
+//        Task {
+//            let cartItem = CartItem(id: product.id, product: product, quantity: quantity)
+//            do {
+//                try await injected.interactors.products.db.cart.storeCartItem(cartItem)
+//            } catch {
+//                // handle error
+//            }
+//        }
+    }
+
+    private func removeCartItem() {
+//        Task {
+//            do {
+//                try await injected.interactors.products.db.cart.deleteCartItem(id: product.id)
+//            } catch {
+//                // handle error
+//            }
+//        }
     }
 }
