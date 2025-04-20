@@ -7,41 +7,47 @@
 
 import SwiftUI
 
-struct ErrorView: View {
-    let error: Error
-    let retryAction: () -> Void
+// MARK: - ErrorMessageView
+
+struct ErrorMessageView: View {
+    let message: String
+    let retryAction: (() -> Void)?
+
+    init(message: String, retryAction: (() -> Void)? = nil) {
+        self.message = message
+        self.retryAction = retryAction
+    }
 
     var body: some View {
         VStack {
             Text("An Error Occured")
                 .font(.title)
 
-            Text(error.localizedDescription)
-                .font(.callout)
-                .multilineTextAlignment(.center)
-                .padding(.bottom, 40)
+            Text(message)
+                .font(.nike(.regular, size: 16))
+                .foregroundColor(.red)
+                .padding()
+                .background(Color.white)
+                .cornerRadius(10)
+                .shadow(radius: 5)
                 .padding()
 
-            Button(
-                action: retryAction,
-                label: {
-                    Text("Retry")
-                        .bold()
-                }
-            )
+            if let retryAction {
+                Button(
+                    action: retryAction,
+                    label: {
+                        Text("Retry")
+                            .bold()
+                    }
+                )
+            }
         }
     }
 }
 
 #Preview {
-    ErrorView(
-        error: NSError(
-            domain: "",
-            code: 0,
-            userInfo: [
-                NSLocalizedDescriptionKey: "Something went wrong"
-            ]
-        ),
-        retryAction: {}
+    ErrorMessageView(
+        message: "Something went wrong",
+        retryAction: nil
     )
 }

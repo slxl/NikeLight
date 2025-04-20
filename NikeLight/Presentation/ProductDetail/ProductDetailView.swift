@@ -57,14 +57,14 @@ struct ProductDetailView: View {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
                     presentationMode.wrappedValue.dismiss()
-                }) {
+                }, label: {
                     Image(systemName: "chevron.left")
                         .font(.system(size: 14, weight: .medium))
                         .foregroundColor(.primary)
                         .frame(width: 32, height: 32)
                         .background(Color.gray.opacity(0.2))
                         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                }
+                })
             }
         }
         .onAppear {
@@ -128,7 +128,6 @@ struct ProductDetailView: View {
             Button(action: {
                 quantity += 1
                 updateCartItem(quantity: quantity)
-
             }, label: {
                 Image(systemName: "plus")
             })
@@ -147,7 +146,6 @@ struct ProductDetailView: View {
         Button(action: {
             quantity = 1
             updateCartItem(quantity: quantity)
-
         }, label: {
             Text("Add to Cart")
                 .frame(maxWidth: .infinity)

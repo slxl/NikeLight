@@ -17,7 +17,6 @@ protocol CartDatabaseRepository {
     func removeProduct(_ product: Product) async throws
 }
 
-
 // MARK: - MainDBRepository + CartDatabaseRepository
 
 extension MainDBRepository: CartDatabaseRepository {

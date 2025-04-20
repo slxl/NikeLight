@@ -10,11 +10,13 @@ import SwiftUI
 // MARK: - ProductListView
 
 struct ProductListView: View {
+    private enum Constants {
+        static let spacing = 8.0
+    }
+
     @State private var products: [Product] = []
-    @State private var navigationPath = NavigationPath()
     @State private(set) var productsState: Loadable<Void>
     @State private var isRefreshing = false
-    @State private var fadeIn: Bool = false // State to track fade-in animation
 
     @Environment(\.injected)
     private var injected: DIContainer
@@ -25,13 +27,11 @@ struct ProductListView: View {
     }
 
     var body: some View {
-        NavigationStack(path: $navigationPath) {
+        NavigationStack {
             content
                 .navigationTitle("Shop")
                 .navigationBarTitleDisplayMode(.inline)
         }
-        // .onReceive(routingUpdate) { self.routingState = $0 }
-        // .onReceive(inspection.notice) { self.inspection.visit(self, $0) }
     }
 
     @ViewBuilder private var content: some View {
@@ -49,15 +49,6 @@ struct ProductListView: View {
             failedView(error)
         }
     }
-
-    private var tileSize: CGFloat {
-        // Make square tiles based on screen width
-        let screenWidth = UIScreen.main.bounds.width
-        let spacing: CGFloat = 8
-        let totalSpacing = spacing * 3 // left + middle + right
-
-        return (screenWidth - totalSpacing) / 2
-    }
 }
 
 // MARK: ProductListView.Routing
@@ -70,6 +61,12 @@ extension ProductListView {
 
 @MainActor
 private extension ProductListView {
+    private var tileSize: CGFloat {
+        // Make square tiles based on screen width
+        let screenWidth = UIScreen.main.bounds.width
+        return (screenWidth - Constants.spacing * 3) / 2 // left + middle + right spacing
+    }
+
     @ViewBuilder
     func loadedView() -> some View {
         if products.isEmpty {
@@ -83,7 +80,7 @@ private extension ProductListView {
                 ], spacing: 8) {
                     ForEach(products) { product in
                         NavigationLink(value: product) {
-                            ProductTileView(product: product, tileSize: tileSize)
+                            ProductTileView(product: product)
                         }
                     }
                 }
@@ -101,17 +98,6 @@ private extension ProductListView {
                     }
                 }
             }
-            //        .onChange(of: routingState.productId, initial: true, { _, code in
-            //            guard let code,
-            //                  let product = products.first(where: { $0.id == productId})
-            //            else { return }
-            //            navigationPath.append(product)
-            //        })
-            //        .onChange(of: navigationPath, { _, path in
-            //            if !path.isEmpty {
-            //                routingBinding.wrappedValue.productId = nil
-            //            }
-            //        })
         }
     }
 }
@@ -136,7 +122,7 @@ private extension ProductListView {
     }
 
     func failedView(_ error: Error) -> some View {
-        ErrorView(error: error, retryAction: {
+        ErrorMessageView(message: error.localizedDescription, retryAction: {
             loadProducts(forceReload: true)
         })
     }

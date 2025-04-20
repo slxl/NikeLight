@@ -12,7 +12,9 @@ import SwiftUI
 
 struct ImageView: View {
     private let imageURL: URL?
-    @Environment(\.injected) var injected: DIContainer
+    @Environment(\.injected)
+    var injected: DIContainer
+    
     @State private var image: Loadable<UIImage>
 
     init(imageURL: URL?, image: Loadable<UIImage> = .notRequested) {
@@ -24,10 +26,13 @@ struct ImageView: View {
         switch image {
         case .notRequested:
             defaultView()
+
         case .isLoading:
             loadingView()
+
         case let .loaded(image):
             loadedView(image)
+
         case let .failed(error):
             failedView(error)
         }

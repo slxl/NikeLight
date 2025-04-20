@@ -20,7 +20,7 @@ struct ConfirmationView: View {
 
             Button(action: {
                 isPresented = false
-            }) {
+            }, label: {
                 Text("Done")
                     .font(.nike(.regular, size: 12))
                     .foregroundColor(.primary)
@@ -28,7 +28,7 @@ struct ConfirmationView: View {
                     .padding(.vertical, 12)
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(6)
-            }
+            })
         }
         .padding()
         .background(Color.white)

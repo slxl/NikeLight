@@ -57,46 +57,45 @@ struct CartView: View {
 
                                 Button(action: {
                                     applyPromoCode()
-                                }) {
+                                }, label: {
                                     Text("Apply")
                                         .font(.nike(.regular, size: 12))
-//                                        .fixedSize(horizontal: true, vertical: true)
                                         .foregroundColor(.primary)
                                         .padding(.horizontal, 16)
                                         .padding(.vertical, 12)
                                         .background(Color.gray.opacity(0.2))
                                         .cornerRadius(6)
-                                }
+                                })
                                 .disabled(isLoading || isCheckoutInProgress)
                             }
                         }
                     }
 
-                        Button(action: {
-                            initiateCheckout()
-                        }) {
-                            Text("Pay €\(totalAmount, specifier: "%.2f")")
-                                .font(.nike(.regular, size: 18))
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(.primary)
-                                .cornerRadius(6)
-                        }
-                        .disabled(isLoading || isCheckoutInProgress)
+                    Button(action: {
+                        initiateCheckout()
+                    }, label: {
+                        Text("Pay €\(totalAmount, specifier: "%.2f")")
+                            .font(.nike(.regular, size: 18))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(.primary)
+                            .cornerRadius(6)
+                    })
+                    .disabled(isLoading || isCheckoutInProgress)
 
-                        Button(action: {
-                            Task { await clearCart() }
-                        }) {
-                            Text("Empty Cart")
-                                .font(.nike(.regular, size: 16))
-                                .foregroundColor(.primary)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.gray.opacity(0.2))
-                                .cornerRadius(6)
-                        }
-                        .disabled(isLoading || isCheckoutInProgress)
+                    Button(action: {
+                        Task { await clearCart() }
+                    }, label: {
+                        Text("Empty Cart")
+                            .font(.nike(.regular, size: 16))
+                            .foregroundColor(.primary)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(6)
+                    })
+                    .disabled(isLoading || isCheckoutInProgress)
                 }
             }
             .padding(.horizontal, 16)
@@ -224,22 +223,3 @@ struct CartView: View {
         totalAmount = 0
     }
 }
-
-// MARK: - ErrorMessageView
-
-struct ErrorMessageView: View {
-    let message: String
-
-    var body: some View {
-        Text(message)
-            .font(.nike(.regular, size: 16))
-            .foregroundColor(.red)
-            .padding()
-            .background(Color.white)
-            .cornerRadius(10)
-            .shadow(radius: 5)
-            .padding()
-    }
-}
-
-

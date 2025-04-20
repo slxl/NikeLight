@@ -8,6 +8,7 @@ import Combine
 
 final class CancelBag {
     fileprivate(set) var subscriptions = [any Cancellable]()
+    
     private let equalToAny: Bool
     
     init(equalToAny: Bool = false) {
@@ -24,7 +25,6 @@ final class CancelBag {
 }
 
 extension Cancellable {
-    
     func store(in cancelBag: CancelBag) {
         cancelBag.subscriptions.append(self)
     }
