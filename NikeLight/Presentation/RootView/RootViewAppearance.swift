@@ -13,7 +13,6 @@ import SwiftUI
 struct RootViewAppearance: ViewModifier {
     @Environment(\.injected) private var injected: DIContainer
     @State private var isActive: Bool = false
-    internal let inspection = Inspection<Self>()
 
     private var stateUpdate: AnyPublisher<Bool, Never> {
         injected.appState.updates(for: \.system.isActive)
@@ -24,6 +23,5 @@ struct RootViewAppearance: ViewModifier {
             .blur(radius: isActive ? 0 : 10)
             .ignoresSafeArea()
             .onReceive(stateUpdate) { isActive = $0 }
-            .onReceive(inspection.notice) { inspection.visit(self, $0) }
     }
 }

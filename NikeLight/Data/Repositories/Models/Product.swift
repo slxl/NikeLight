@@ -15,6 +15,10 @@ struct Product: Identifiable, Codable, Hashable {
     let price: Double
     let description: String
     let image: String?
+
+    var imageUrl: URL? {
+        URL(string: image ?? "")
+    }
 }
 
 // MARK: - ApiModel.Product

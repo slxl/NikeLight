@@ -28,32 +28,11 @@ struct ProductDetailView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     GeometryReader { geo in
                         let dimension: CGFloat = geo.size.width - 32
-
-                        if let imageURLString = product.image,
-                           let imageURL = URL(string: imageURLString) {
-                            AsyncImage(url: imageURL) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: dimension, height: dimension)
-                                    .clipped()
-                                    .cornerRadius(20)
-                            } placeholder: {
-                                Rectangle()
-                                    .foregroundColor(.gray.opacity(0.3))
-                                    .frame(width: dimension, height: dimension)
-                                    .cornerRadius(20)
-                            }
-                            .frame(height: dimension)
+                        ImageView(imageURL: product.imageUrl)
+                            .frame(width: dimension, height: dimension)
+                            .clipped()
+                            .cornerRadius(20)
                             .padding(.horizontal)
-                        } else {
-                            // Fallback placeholder if image is nil or URL is invalid
-                            Rectangle()
-                                .foregroundColor(.gray.opacity(0.3))
-                                .frame(width: dimension, height: dimension)
-                                .cornerRadius(20)
-                                .padding(.horizontal)
-                        }
                     }
                     .frame(height: UIScreen.main.bounds.width - 32)
 
@@ -69,40 +48,7 @@ struct ProductDetailView: View {
                 .padding()
             }
 
-            // Sticky Bottom Bar
-            HStack {
-                Text("€\(product.price, specifier: "%.2f")")
-                    .font(.nike(.regular, size: 16))
-                    .bold()
-
-                Spacer()
-
-                Group {
-                    if isLoadingQuantity {
-                        ProgressView()
-                            .frame(width: 160, height: 44)
-                    } else {
-                        ZStack {
-                            if isAddedToCart {
-                                counterView
-                                    .transition(.opacity)
-                            } else {
-                                addToCartButton
-                                    .transition(.opacity)
-                            }
-                        }
-                        .animation(.easeInOut(duration: 0.15), value: isAddedToCart)
-                        .frame(width: 160)
-                    }
-                }
-            }
-            .padding()
-            .background(
-                Color(UIColor.systemBackground)
-                    .clipShape(RoundedCorner(radius: 20, corners: [.topLeft, .topRight]))
-                    .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: -6)
-                    .ignoresSafeArea(edges: .bottom) // Extend behind the Tab Bar
-            )
+            stickyBarView
         }
         .navigationTitle("Details")
         .navigationBarTitleDisplayMode(.inline)
@@ -128,25 +74,49 @@ struct ProductDetailView: View {
         }
     }
 
+    @ViewBuilder var stickyBarView: some View {
+        HStack {
+            Text("€\(product.price, specifier: "%.2f")")
+                .font(.nike(.regular, size: 16))
+                .bold()
+
+            Spacer()
+
+            Group {
+                if isLoadingQuantity {
+                    ProgressView()
+                        .frame(width: 160, height: 44)
+                } else {
+                    ZStack {
+                        if quantity > 0 {
+                            counterView
+                                .transition(.opacity)
+                        } else {
+                            addToCartButton
+                                .transition(.opacity)
+                        }
+                    }
+                    .animation(.easeInOut(duration: 0.15), value: quantity > 0)
+                    .frame(width: 160)
+                }
+            }
+        }
+        .padding()
+        .background(
+            Color(UIColor.systemBackground)
+                .clipShape(RoundedCorner(radius: 20, corners: [.topLeft, .topRight]))
+                .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: -6)
+                .ignoresSafeArea(edges: .bottom) // Extend behind the Tab Bar
+        )
+    }
+
     // MARK: - Components
 
     private var counterView: some View {
         HStack(spacing: 12) {
             Button(action: {
-                triggerHaptic()
-
-                if quantity > 1 {
-                    quantity -= 1
-
-                    updateCartItem(quantity: quantity)
-                } else {
-                    withAnimation {
-                        isAddedToCart = false
-                        quantity = 0
-
-                        updateCartItem(quantity: quantity)
-                    }
-                }
+                quantity = max(0, quantity - 1)
+                updateCartItem(quantity: quantity)
             }, label: {
                 Image(systemName: "minus")
             })
@@ -156,9 +126,7 @@ struct ProductDetailView: View {
                 .frame(minWidth: 24)
 
             Button(action: {
-                triggerHaptic()
                 quantity += 1
-
                 updateCartItem(quantity: quantity)
 
             }, label: {
@@ -177,12 +145,7 @@ struct ProductDetailView: View {
 
     private var addToCartButton: some View {
         Button(action: {
-            triggerHaptic()
-            withAnimation {
-                isAddedToCart = true
-                quantity = 1
-            }
-
+            quantity = 1
             updateCartItem(quantity: quantity)
 
         }, label: {
@@ -194,13 +157,6 @@ struct ProductDetailView: View {
         .background(Color.black)
         .foregroundColor(.white)
         .cornerRadius(10)
-    }
-
-    // MARK: - Haptics
-
-    private func triggerHaptic() {
-        let generator = UIImpactFeedbackGenerator(style: .light)
-        generator.impactOccurred()
     }
 
     // MARK: - DB Logic
@@ -220,9 +176,6 @@ struct ProductDetailView: View {
             } else {
                 quantity = 0
             }
-
-            isAddedToCart = quantity > 0
-
         } catch {
             // handle error if needed
         }
