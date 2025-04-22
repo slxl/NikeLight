@@ -10,6 +10,10 @@ import UIKit
 
 // MARK: - SystemEventsHandler
 
+/// SystemEventsHandler during intial system design supposed to be used to save/restore cart on didBecomeActive/willResignActive events
+/// but cart ended up being saved after every mutation so its state is always up to date
+/// Kept for potential usage in the future
+
 @MainActor
 protocol SystemEventsHandler {
     func sceneDidBecomeActive()
@@ -29,11 +33,9 @@ struct RealSystemEventsHandler: SystemEventsHandler {
 
     func sceneDidBecomeActive() {
         container.appState[\.system.isActive] = true
-        // TODO: restore cart
     }
 
     func sceneWillResignActive() {
-        // TODO: save cart
         container.appState[\.system.isActive] = false
     }
 }

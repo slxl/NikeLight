@@ -3,6 +3,11 @@ import SwiftUI
 // MARK: - CartView
 
 struct CartView: View {
+    private enum Constants {
+        static let validPromocode = "YOUAREHIRED"
+        static let discount = 99
+    }
+
     @State private var cartItems: [CartItem] = []
     @State private var promocode: String = ""
     @State private var promocodeDiscount: Double = 0.0
@@ -45,29 +50,27 @@ struct CartView: View {
                     }
                     .scrollIndicators(.hidden)
 
-                    if !cartItems.isEmpty {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Enter YOUAREHIRED promocode to get a discount")
-                                .font(.nike(.regular, size: 14))
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Enter \(Constants.validPromocode) promocode to get a \(Constants.discount)% discount")
+                            .font(.nike(.regular, size: 14))
 
-                            HStack {
-                                TextField("Promo Code", text: $promocode)
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                    .font(.nike(.regular, size: 16))
+                        HStack {
+                            TextField("Promo Code", text: $promocode)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .font(.nike(.regular, size: 16))
 
-                                Button(action: {
-                                    applyPromoCode()
-                                }, label: {
-                                    Text("Apply")
-                                        .font(.nike(.regular, size: 12))
-                                        .foregroundColor(.primary)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 12)
-                                        .background(Color.gray.opacity(0.2))
-                                        .cornerRadius(6)
-                                })
-                                .disabled(isLoading || isCheckoutInProgress)
-                            }
+                            Button(action: {
+                                applyPromoCode()
+                            }, label: {
+                                Text("Apply")
+                                    .font(.nike(.regular, size: 12))
+                                    .foregroundColor(.primary)
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 12)
+                                    .background(Color.gray.opacity(0.2))
+                                    .cornerRadius(6)
+                            })
+                            .disabled(isLoading || isCheckoutInProgress)
                         }
                     }
 
@@ -128,6 +131,7 @@ struct CartView: View {
     private func loadCartItems() {
         Task {
             isLoading = true
+
             defer { isLoading = false }
 
             do {
@@ -163,12 +167,13 @@ struct CartView: View {
     }
 
     private func applyPromoCode() {
-        promocodeDiscount = promocode == "YOUAREHIRED" ? 0.99 : 0
+        promocodeDiscount = promocode == Constants.validPromocode ? Double(Constants.discount) : 0
         updateTotal()
     }
 
     private func updateTotal() {
-        totalAmount = cartItems.reduce(0) { $0 + $1.product.price * Double($1.quantity) } * (1 - promocodeDiscount)
+        let totalBeforeDiscount = cartItems.reduce(0) { $0 + $1.product.price * Double($1.quantity) }
+        totalAmount = ((100.0 - promocodeDiscount) / 100.0) * totalBeforeDiscount
     }
 
     private func initiateCheckout() {
@@ -176,40 +181,21 @@ struct CartView: View {
         errorMessage = nil
 
         Task {
-            await simulatePollingForPaymentCompletion()
-        }
-    }
-
-    private func simulatePollingForPaymentCompletion() async {
-        let timeout: TimeInterval = 60
-        let pollingInterval: TimeInterval = 3
-        let endpoint = "https://httpbin.org/delay/3"
-
-        var timeElapsed: TimeInterval = 0
-        while timeElapsed < timeout {
             do {
-                let url = URL(string: endpoint)!
-                let (_, response) = try await URLSession.shared.data(from: url)
+                let success = try await injected.interactors.cart.checkoutCart()
 
-                if (response as? HTTPURLResponse)?.statusCode == 200 {
+                if success {
                     isCheckoutSuccess = true
                     await clearCart()
-                    break
+                } else {
+                    errorMessage = "Error: Payment was not successful. Please try again."
                 }
             } catch {
-                errorMessage = "Error: Network failure during payment simulation."
-                break
+                errorMessage = "Error: \(error.localizedDescription)"
             }
 
-            timeElapsed += pollingInterval
-            await Task.sleep(UInt64(pollingInterval * 1_000_000_000))
+            isCheckoutInProgress = false
         }
-
-        if !isCheckoutSuccess {
-            errorMessage = "Error: Payment timeout. Please try again."
-        }
-
-        isCheckoutInProgress = false
     }
 
     private func clearCart() async {

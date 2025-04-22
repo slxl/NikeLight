@@ -5,12 +5,9 @@
 //  Created by Slava Khlichkin on 17/04/2025.
 //
 
-import SwiftData
 import SwiftUI
 
 // MARK: - NikeLightApp
-
-// import EnvironmentOverrides
 
 @main
 struct NikeLightApp: App {
@@ -34,7 +31,6 @@ extension AppEnvironment {
                 RootView()
                     .modifier(RootViewAppearance())
                     .modelContainer(modelContainer)
-                    // TODO: .attachEnvironmentOverrides(onChange: onChangeHandler)
                     .inject(diContainer)
 
                 if modelContainer.isStub {
@@ -44,12 +40,4 @@ extension AppEnvironment {
             }
         }
     }
-
-//    private var onChangeHandler: (EnvironmentValues.Diff) -> Void {
-//        return { diff in
-//            if !diff.isDisjoint(with: [.locale, .sizeCategory]) {
-//                self.diContainer.appState[\.routing] = AppState.ViewRouting()
-//            }
-//        }
-//    }
 }

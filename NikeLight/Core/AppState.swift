@@ -5,13 +5,11 @@
 //  Created by Slava Khlichkin on 17/04/2025.
 //
 
-import Combine
-import SwiftUI
+import Foundation
 
 // MARK: - AppState
 
 struct AppState {
-    var routing = ViewRouting()
     var system = System()
 }
 
@@ -19,16 +17,7 @@ struct AppState {
 
 extension AppState: Equatable {
     static func == (lhs: AppState, rhs: AppState) -> Bool {
-        lhs.routing == rhs.routing
-            && lhs.system == rhs.system
-    }
-}
-
-// MARK: AppState.ViewRouting
-
-extension AppState {
-    struct ViewRouting: Equatable {
-        var productsList = ProductListView.Routing()
+        lhs.system == rhs.system
     }
 }
 

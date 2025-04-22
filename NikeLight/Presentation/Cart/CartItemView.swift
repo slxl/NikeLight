@@ -16,19 +16,9 @@ struct CartItemView: View {
 
     var body: some View {
         HStack {
-            // Product Image
-            if let imageURLString = cartItem.product.image, let imageURL = URL(string: imageURLString) {
-                AsyncImage(url: imageURL) { image in
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 40, height: 40)
-                        .clipped()
-                } placeholder: {
-                    Color.gray.opacity(0.3)
-                        .frame(width: 40, height: 40)
-                }
-            }
+            ImageView(imageURL: cartItem.product.imageUrl)
+                .frame(width: 40, height: 40)
+                .clipped()
 
             VStack(alignment: .leading) {
                 Text(cartItem.product.title)
@@ -46,10 +36,10 @@ struct CartItemView: View {
             HStack(spacing: 8) {
                 Button(action: {
                     onQuantityChange(cartItem.product, cartItem.quantity - 1)
-                }) {
+                }, label: {
                     Image(systemName: "minus")
                         .foregroundColor(cartItem.quantity == 1 ? .gray : .primary)
-                }
+                })
                 .disabled(cartItem.quantity == 1)
 
                 Text("\(cartItem.quantity)")
@@ -57,21 +47,21 @@ struct CartItemView: View {
 
                 Button(action: {
                     onQuantityChange(cartItem.product, cartItem.quantity + 1)
-                }) {
+                }, label: {
                     Image(systemName: "plus")
-                }
+                })
             }
             .padding(.horizontal)
 
             Button(action: {
                 onRemoveItem(cartItem.product)
-            }) {
+            }, label: {
                 Image(systemName: "trash")
                     .foregroundColor(.primary)
                     .frame(width: 40, height: 40)
                     .background(Color.gray.opacity(0.2))
                     .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-            }
+            })
         }
         .padding()
         .background(Color.white)
