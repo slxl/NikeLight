@@ -55,6 +55,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		F92AFA832DB7BB2B0084402D /* Images */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Images;
+			sourceTree = "<group>";
+		};
 		F9545A132DB0F99000137A3D /* NikeLight */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -111,6 +116,7 @@
 		F9545A082DB0F99000137A3D = {
 			isa = PBXGroup;
 			children = (
+				F92AFA832DB7BB2B0084402D /* Images */,
 				F92AFA812DB7B1580084402D /* README.md */,
 				F9545A132DB0F99000137A3D /* NikeLight */,
 				F9545A242DB0F99100137A3D /* NikeLightTests */,
@@ -170,6 +176,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				F92AFA832DB7BB2B0084402D /* Images */,
 				F9545A132DB0F99000137A3D /* NikeLight */,
 			);
 			name = NikeLight;
