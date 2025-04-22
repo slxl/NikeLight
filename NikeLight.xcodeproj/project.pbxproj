@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F92AFA822DB7B1580084402D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F92AFA812DB7B1580084402D /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		F9545A222DB0F99100137A3D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F92AFA812DB7B1580084402D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F935B4392DB163EE00FB40C2 /* SwiftLintDiff+Fix */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "SwiftLintDiff+Fix"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9545A112DB0F99000137A3D /* NikeLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NikeLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9545A212DB0F99100137A3D /* NikeLightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NikeLightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,6 +111,7 @@
 		F9545A082DB0F99000137A3D = {
 			isa = PBXGroup;
 			children = (
+				F92AFA812DB7B1580084402D /* README.md */,
 				F9545A132DB0F99000137A3D /* NikeLight */,
 				F9545A242DB0F99100137A3D /* NikeLightTests */,
 				F9545A2E2DB0F99100137A3D /* NikeLightUITests */,
@@ -316,6 +322,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F92AFA822DB7B1580084402D /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
