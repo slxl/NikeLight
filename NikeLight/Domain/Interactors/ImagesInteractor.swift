@@ -20,10 +20,6 @@ protocol ImagesInteractor {
 struct RealImagesInteractor: ImagesInteractor {
     let webRepository: ImagesWebRepository
 
-    init(webRepository: ImagesWebRepository) {
-        self.webRepository = webRepository
-    }
-
     func load(image: LoadableSubject<UIImage>, url: URL?) {
         guard let url else {
             image.wrappedValue = .notRequested

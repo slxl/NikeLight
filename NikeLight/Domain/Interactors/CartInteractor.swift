@@ -7,23 +7,58 @@
 
 // MARK: - CartInteractor
 
+/// A protocol that defines the operations for managing a user's shopping cart.
+///
+/// This protocol includes methods for loading, clearing, updating product quantities,
+/// removing products, and simulating the checkout process.
 protocol CartInteractor {
-    /// Load cart contents, used for app launch or reload
+    /// Loads the contents of the cart.
+    ///
+    /// - Returns: An array of `CartItem` objects representing the items currently in the cart.
+    /// - Throws: An error if the cart cannot be loaded, such as a network or database failure.
+    ///
+    /// This method is used when the app is launched or when the cart needs to be reloaded.
     func loadCart() async throws -> [CartItem]
 
-    /// Clear the entire cart
+    /// Clears the entire cart.
+    ///
+    /// - Throws: An error if the cart cannot be cleared, such as a database or network issue.
+    ///
+    /// This method removes all items from the cart and resets the cart's state.
     func clearCart() async throws
 
-    /// Adjusts product quantity
+    /// Adjusts the quantity of a specific product in the cart.
+    ///
+    /// - Parameters:
+    ///   - product: The product whose quantity needs to be updated.
+    ///   - quantity: The new quantity for the product.
+    /// - Throws: An error if the quantity update fails, such as a database or network issue.
+    ///
+    /// This method allows modifying the quantity of an item already in the cart. If the product
+    /// doesn't exist in the cart, it will be added with the specified quantity.
     func setProductQuantity(_ product: Product, quantity: Int) async throws
 
-    /// Remove all quantities of a specific product from the cart
+    /// Removes all quantities of a specific product from the cart.
+    ///
+    /// - Parameter product: The product to remove from the cart.
+    /// - Throws: An error if the product cannot be removed, such as a database or network failure.
+    ///
+    /// This method deletes the product entirely from the cart.
     func removeProduct(_ product: Product) async throws
+
+    /// Simulates the checkout process for the cart.
+    ///
+    /// - Returns: A `Bool` indicating whether the checkout was successful (`true`) or not (`false`).
+    /// - Throws: An error if the checkout process fails, such as a network or payment failure.
+    ///
+    /// This method simulates completing the purchase for all items in the cart.
+    func checkoutCart() async throws -> Bool
 }
 
 // MARK: - RealCartInteractor
 
 struct RealCartInteractor: CartInteractor {
+    let checklutRepository: CheckoutWebRepository
     let cartRepository: CartDatabaseRepository
 
     func loadCart() async throws -> [CartItem] {
@@ -47,6 +82,10 @@ struct RealCartInteractor: CartInteractor {
     func removeProduct(_ product: Product) async throws {
         try await cartRepository.removeProduct(product)
     }
+
+    func checkoutCart() async throws -> Bool {
+        try await checklutRepository.simulateCheckout()
+    }
 }
 
 // MARK: - StubCartInteractor
@@ -68,5 +107,9 @@ struct StubCartInteractor: CartInteractor {
 
     func removeProduct(_: Product) async throws {
         // no-op
+    }
+
+    func checkoutCart() async throws -> Bool {
+        true
     }
 }

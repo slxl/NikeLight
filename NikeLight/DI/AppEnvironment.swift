@@ -43,16 +43,18 @@ extension AppEnvironment {
         configuration.timeoutIntervalForResource = 120
         configuration.waitsForConnectivity = true
         configuration.httpMaximumConnectionsPerHost = 5
-        configuration.requestCachePolicy = .returnCacheDataElseLoad
+        configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         configuration.urlCache = .shared
+
         return URLSession(configuration: configuration)
     }
 
     private static func configuredWebRepositories(session: URLSession) -> DIContainer.WebRepositories {
         let imagesRepository = RealImagesWebRepository(session: session)
         let productsRepository = RealProductsWebRepository(session: session)
+        let checkoutRepository = RealCheckoutWebRepository(session: session)
 
-        return .init(images: imagesRepository, products: productsRepository)
+        return .init(images: imagesRepository, products: productsRepository, checkout: checkoutRepository)
     }
 
     private static func configuredDBRepositories(modelContainer: ModelContainer) -> DIContainer.DBRepositories {
@@ -75,7 +77,7 @@ extension AppEnvironment {
     ) -> DIContainer.Interactors {
         let images = RealImagesInteractor(webRepository: webRepositories.images)
         let products = RealProductsInteractor(webRepository: webRepositories.products)
-        let cart = RealCartInteractor(cartRepository: dbRepositories.cart)
+        let cart = RealCartInteractor(checklutRepository: webRepositories.checkout, cartRepository: dbRepositories.cart)
 
         return .init(images: images, products: products, cart: cart)
     }

@@ -9,8 +9,25 @@ import Foundation
 
 // MARK: - ProductsWebRepository
 
+/// A protocol for interacting with the web service related to products.
+///
+/// This protocol defines methods for fetching products and specific product details from a web repository.
 protocol ProductsWebRepository: WebRepository {
+    /// Fetches a list of all products from the web repository.
+    ///
+    /// - Returns: An array of `ApiModel.Product` objects representing all available products.
+    /// - Throws: An error if the fetch operation fails, such as a network error or a server issue.
+    ///
+    /// This method is asynchronous and must be called within an asynchronous context.
     func products() async throws -> [ApiModel.Product]
+
+    /// Fetches the details of a specific product by its ID.
+    ///
+    /// - Parameter id: The unique identifier of the product to fetch.
+    /// - Returns: An `ApiModel.Product` object representing the product with the specified ID.
+    /// - Throws: An error if the fetch operation fails, such as a network error, server issue, or if no product with the given ID exists.
+    ///
+    /// This method is asynchronous and must be called within an asynchronous context.
     func product(id: Int) async throws -> ApiModel.Product
 }
 

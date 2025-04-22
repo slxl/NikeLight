@@ -11,7 +11,9 @@ import SwiftUI
 // MARK: - RootViewAppearance
 
 struct RootViewAppearance: ViewModifier {
-    @Environment(\.injected) private var injected: DIContainer
+    @Environment(\.injected)
+    private var injected: DIContainer
+
     @State private var isActive: Bool = false
 
     private var stateUpdate: AnyPublisher<Bool, Never> {

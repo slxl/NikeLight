@@ -15,7 +15,7 @@ struct CartView: View {
     @State private var isLoading: Bool = false
     @State private var isCheckoutInProgress: Bool = false
     @State private var isCheckoutSuccess: Bool = false
-    @State private var errorMessage: String? = nil
+    @State private var errorMessage: String?
 
     @Environment(\.injected)
     private var injected: DIContainer

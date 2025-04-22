@@ -8,7 +8,6 @@
 import Foundation
 
 #if DEBUG
-
 @MainActor
 extension ApiModel.Product {
     static let mockedProducts: [ApiModel.Product] = [

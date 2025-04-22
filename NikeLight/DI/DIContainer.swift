@@ -28,6 +28,7 @@ extension DIContainer {
     struct WebRepositories {
         let images: ImagesWebRepository
         let products: ProductsWebRepository
+        let checkout: CheckoutWebRepository
     }
 
     struct DBRepositories {

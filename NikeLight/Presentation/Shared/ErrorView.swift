@@ -21,27 +21,31 @@ struct ErrorMessageView: View {
     var body: some View {
         VStack {
             Text("An Error Occured")
-                .font(.title)
+                .font(.nike(.bold, size: 18))
 
             Text(message)
                 .font(.nike(.regular, size: 16))
-                .foregroundColor(.red)
-                .padding()
-                .background(Color.white)
-                .cornerRadius(10)
-                .shadow(radius: 5)
-                .padding()
+                .foregroundColor(Color.gray)
 
             if let retryAction {
                 Button(
                     action: retryAction,
                     label: {
                         Text("Retry")
-                            .bold()
+                            .font(.nike(.regular, size: 12))
+                            .foregroundColor(.primary)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(6)
                     }
                 )
             }
         }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(6)
+        .shadow(color: Color.gray.opacity(0.2), radius: 16)
     }
 }
 
